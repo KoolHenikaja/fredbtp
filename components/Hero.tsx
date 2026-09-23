@@ -1,112 +1,194 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import HeroImage from "@/assets/hero_image.png"
+
+const TABS = ["Construction", "Rénovation"];
+
+const PROJECT_TYPES = ["Maison individuelle", "Immeuble", "Local commercial", "Rénovation lourde"];
+const BUDGETS = ["< 20M Ar", "20M – 50M Ar", "50M – 100M Ar", "100M Ar +"];
 
 const STATS = [
-  { value: "18 ans", label: "d'expérience sur chantier" },
-  { value: "240+", label: "projets livrés dans les délais" },
-  { value: "98 %", label: "de clients qui nous recommandent" },
+  {
+    label: "chantiers réalisés",
+    value: "240+",
+    icon: (
+      <path d="M3 21h18M5 21V9l7-5 7 5v12M10 21v-6h4v6" />
+    ),
+  },
+  {
+    label: "clients satisfaits",
+    value: "480+",
+    icon: (
+      <>
+        <circle cx="9" cy="8" r="3.2" />
+        <path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" />
+        <circle cx="17" cy="9" r="2.6" />
+        <path d="M15.5 14c2.8.3 4.7 2.3 5 6" />
+      </>
+    ),
+  },
+  {
+    label: "ouvriers qualifiés",
+    value: "65+",
+    icon: (
+      <>
+        <path d="M14.7 6.3a4 4 0 1 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4Z" />
+        <path d="M17.5 6.5 19 5" />
+      </>
+    ),
+  },
 ];
 
 export default function Hero() {
+  const [tab, setTab] = useState(TABS[0]);
+
   return (
-    <section
-      id="accueil"
-      className="relative overflow-hidden bg-creme dark:bg-ardoise"
-    >
-      {/* Fond façon plan d'architecte : grille fine + repère d'angle */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.35] dark:opacity-[0.18]"
-        aria-hidden="true"
-      >
-        <defs>
-          <pattern id="blueprint-grid" width="44" height="44" patternUnits="userSpaceOnUse">
-            <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#1E40AF" strokeWidth="0.6" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
-      </svg>
-
-      {/* Liseré orange diagonal, unique touche de couleur vive du fond */}
-      <div className="pointer-events-none absolute -right-24 top-0 h-[140%] w-56 rotate-12 bg-chantier/10 dark:bg-chantier/[0.08]" />
-
-      <div className="relative mx-auto max-w-7xl px-6 pb-20 pt-16 lg:px-10 lg:pb-28 lg:pt-24">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
-          {/* Colonne texte */}
+    <section id="accueil" className="bg-creme dark:bg-ardoise">
+      <div className="mx-auto max-w-7xl px-6 pb-16 pt-14 lg:px-10 lg:pt-20">
+        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-10">
+          {/* Colonne texte + carte devis */}
           <div>
-            <p className="font-body text-sm font-semibold text-royal dark:text-chantier">
-              Entreprise générale de bâtiment — Madagascar
-            </p>
-
-            <h1 className="mt-4 font-display text-[2.75rem] font-bold leading-[1.05] tracking-tight text-ardoise dark:text-creme sm:text-6xl">
-              Des chantiers tenus,
+            <h1 className="font-display text-[2.6rem] font-bold leading-[1.08] tracking-tight text-ardoise dark:text-creme sm:text-[3.25rem]">
+              Le chantier qui
               <br />
-              du gros œuvre à la livraison.
+              tient ses <span className="text-chantier">engagements</span>.
             </h1>
 
-            <p className="mt-6 max-w-md font-body text-lg leading-relaxed text-ardoise/75 dark:text-creme/75">
-              ATLAS BTP conduit vos projets de construction et de rénovation
-              avec une seule promesse : respecter le budget annoncé et la
-              date de livraison signée.
+            <p className="mt-5 max-w-md font-body text-[15px] leading-relaxed text-ardoise/65 dark:text-creme/65">
+              Construction, gros œuvre et rénovation partout à Madagascar —
+              devis clair, chantier suivi, délai respecté.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <Link
-                href="#contact"
-                className="rounded-sm bg-royal px-7 py-3.5 font-body text-[15px] font-semibold text-creme transition-colors hover:bg-blue-800"
-              >
-                Demander un devis gratuit
-              </Link>
-              <Link
-                href="#realisations"
-                className="rounded-sm border border-ardoise/20 px-7 py-3.5 font-body text-[15px] font-semibold text-ardoise transition-colors hover:border-royal hover:text-royal dark:border-creme/25 dark:text-creme dark:hover:border-chantier dark:hover:text-chantier"
-              >
-                Voir nos réalisations
-              </Link>
+            {/* Carte de demande de devis */}
+            <div className="mt-8 w-full max-w-md rounded-2xl border border-gris bg-white p-5 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.18)] dark:border-white/10 dark:bg-white/[0.04]">
+              {/* Onglets */}
+              <div className="mb-4 flex gap-6 border-b border-gris dark:border-white/10">
+                {TABS.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTab(t)}
+                    className={`relative pb-3 font-body text-sm font-semibold transition-colors ${
+                      tab === t
+                        ? "text-ardoise dark:text-creme"
+                        : "text-ardoise/40 dark:text-creme/40"
+                    }`}
+                  >
+                    {t}
+                    {tab === t && (
+                      <span className="absolute -bottom-[1px] left-0 h-[2px] w-full rounded-full bg-chantier" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <label className="flex items-center gap-2.5 rounded-lg border border-gris px-3.5 py-3 dark:border-white/10">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                    <path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Ville, quartier..."
+                    className="w-full bg-transparent font-body text-sm text-ardoise placeholder:text-ardoise/40 outline-none dark:text-creme dark:placeholder:text-creme/40"
+                  />
+                </label>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <select
+                    defaultValue=""
+                    className="rounded-lg border border-gris bg-transparent px-3.5 py-3 font-body text-sm text-ardoise/80 outline-none dark:border-white/10 dark:text-creme/80"
+                  >
+                    <option value="" disabled>Type de projet</option>
+                    {PROJECT_TYPES.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                  <select
+                    defaultValue=""
+                    className="rounded-lg border border-gris bg-transparent px-3.5 py-3 font-body text-sm text-ardoise/80 outline-none dark:border-white/10 dark:text-creme/80"
+                  >
+                    <option value="" disabled>Budget estimé</option>
+                    {BUDGETS.map((b) => (
+                      <option key={b} value={b}>{b}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <button className="mt-1 flex items-center justify-center gap-2 rounded-lg bg-chantier px-4 py-3 font-body text-sm font-semibold text-creme transition-colors hover:bg-orange-600">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg>
+                  Obtenir un devis
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Colonne visuelle : carte "chantier en cours" */}
+          {/* Colonne visuelle */}
           <div className="relative">
-            <div className="aspect-[4/5] w-full rounded-sm border border-gris bg-white/60 shadow-[0_1px_0_0_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-white/[0.03]">
-              <div className="flex h-full flex-col justify-between p-6">
-                <div className="flex items-center justify-between">
-                  <span className="rounded-sm bg-royal px-3 py-1 font-body text-xs font-semibold text-creme">
-                    Chantier en cours
-                  </span>
-                  <span className="font-body text-xs font-medium text-ardoise/50 dark:text-creme/50">
-                    Lot 4 — Gros œuvre
-                  </span>
-                </div>
+            <div className="relative aspect-[4/3.1] w-full overflow-hidden rounded-2xl bg-ardoise">
+              {/* Remplacer par une vraie photo de chantier : /public/hero-chantier.jpg */}
+              <Image
+                src={HeroImage}
+                alt="Chantier de construction FRED BTP"
+                fill
+                priority
+                className="object-cover"
+              />
+            </div>
+
+            {/* Carte flottante projet en cours */}
+            <div className="absolute -bottom-6 right-4 w-[calc(100%-3rem)] max-w-xs rounded-xl border border-gris bg-white p-4 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.25)] dark:border-white/10 dark:bg-ardoise sm:right-6">
+              <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="mb-3 h-2 w-full rounded-full bg-gris dark:bg-white/10">
-                    <div className="h-2 w-[68%] rounded-full bg-chantier" />
-                  </div>
-                  <p className="font-body text-sm text-ardoise/70 dark:text-creme/70">
-                    Avancement du gros œuvre — 68 %
+                  <p className="font-body text-[15px] font-semibold text-ardoise dark:text-creme">
+                    Immeuble R+3 — Ivandry
+                  </p>
+                  <p className="mt-0.5 flex items-center gap-1 font-body text-xs text-ardoise/55 dark:text-creme/55">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
+                      <circle cx="12" cy="10" r="2.5" />
+                    </svg>
+                    Ivandry, Antananarivo
+                  </p>
+                  <p className="mt-2 font-body text-xs font-semibold text-royal">
+                    Avancement — 68 %
                   </p>
                 </div>
+                <button
+                  aria-label="Voir le projet suivant"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gris text-ardoise/60 dark:bg-white/10 dark:text-creme/60"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
               </div>
             </div>
-            {/* Repère d'angle façon plan technique */}
-            <div className="absolute -bottom-3 -left-3 h-6 w-6 border-b-2 border-l-2 border-chantier" />
-            <div className="absolute -right-3 -top-3 h-6 w-6 border-r-2 border-t-2 border-chantier" />
           </div>
         </div>
 
         {/* Statistiques */}
-        <div className="mt-16 grid grid-cols-1 gap-8 border-t border-gris pt-10 dark:border-white/10 sm:grid-cols-3 lg:mt-20">
-          {STATS.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`flex items-baseline gap-3 sm:flex-col sm:items-start sm:gap-1.5 ${
-                i > 0 ? "sm:border-l sm:border-gris sm:pl-8 dark:sm:border-white/10" : ""
-              }`}
-            >
-              <span className="font-display text-4xl font-bold text-ardoise dark:text-creme">
-                {stat.value}
+        <div className="mt-20 grid grid-cols-1 divide-y divide-gris rounded-2xl border border-gris bg-white sm:grid-cols-3 sm:divide-x sm:divide-y-0 dark:divide-white/10 dark:border-white/10 dark:bg-white/[0.03]">
+          {STATS.map((stat) => (
+            <div key={stat.label} className="flex items-center gap-4 px-7 py-6">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-chantier/10">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  {stat.icon}
+                </svg>
               </span>
-              <span className="font-body text-sm text-ardoise/65 dark:text-creme/65">
-                {stat.label}
-              </span>
+              <div>
+                <p className="font-display text-2xl font-bold leading-none text-ardoise dark:text-creme">
+                  {stat.value}
+                </p>
+                <p className="mt-1.5 font-body text-sm text-ardoise/55 dark:text-creme/55">
+                  {stat.label}
+                </p>
+              </div>
             </div>
           ))}
         </div>

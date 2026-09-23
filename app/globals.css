@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
+/* Active la variante dark:  via une classe .dark sur <html>
+   (pilotée par ThemeToggle.tsx) plutôt que via prefers-color-scheme */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc; /* Blanc Cassé */
+  --foreground: #0f172a; /* Bleu Ardoise */
+}
+
+.dark {
+  --background: #0f172a; /* Bleu Ardoise */
+  --foreground: #f8fafc; /* Blanc Cassé */
 }
 
 @theme inline {
+  /* Couleurs sémantiques liées au thème (basculent avec .dark) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Palette de marque — fixe, accessible via bg-royal, text-chantier, etc. */
+  --color-royal: #1e40af;
+  --color-chantier: #f97316;
+  --color-creme: #f8fafc;
+  --color-ardoise: #0f172a;
+  --color-gris: #e2e8f0;
+
+  /* Typographie — une seule famille (Poppins) pour titres et texte courant */
+  --font-sans: var(--font-poppins);
+  --font-display: var(--font-poppins);
+  --font-body: var(--font-poppins);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
