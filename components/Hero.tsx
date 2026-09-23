@@ -156,7 +156,7 @@ export default function Hero() {
                     Ivandry, Antananarivo
                   </p>
                   <p className="mt-2 font-body text-xs font-semibold text-royal">
-                    Avancement — 68 %
+                    Avancement — 62 %
                   </p>
                 </div>
                 <button
